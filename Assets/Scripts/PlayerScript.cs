@@ -17,13 +17,13 @@ public class PlayerScript : MonoBehaviour
         timer = 0;
         idleTimer = 0;
         stayedTooLong = false;
+        lastPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-
         if(lastPosition == transform.position)
         {
             if (timer >= 1f)
@@ -37,6 +37,8 @@ public class PlayerScript : MonoBehaviour
             {
                 idleTimer = 0;
             }
+            lastPosition = transform.position;
+            stayedTooLong = false;
         }
 
         if(idleTimer >= idleThreshold)

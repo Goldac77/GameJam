@@ -124,6 +124,7 @@ public class EnemyAIScript : MonoBehaviour
     {
         if (other.gameObject.transform.name == "PlayerController")
         {
+            Debug.Log("Player caught");
             agent.destination = goal.position;
             inPursuit = true;
         }
