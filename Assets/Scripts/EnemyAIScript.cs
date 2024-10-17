@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,8 +13,6 @@ public class EnemyAIScript : MonoBehaviour
     Vector3 retreatPosition;
 
     int idleCounter;
-    int chaseCounter; //not doing anything for now...
-
     float timer;
 
     bool inPursuit;
@@ -26,13 +23,12 @@ public class EnemyAIScript : MonoBehaviour
     [SerializeField] PlayerScript playerScript;
 
     [SerializeField] int teleportTimer;
-    // Start is called before the first frame update
+
     void Start()
     {
         lastSpawnPosition = Vector3.zero;
         timer = 0;
         idleCounter = 0;
-        chaseCounter = 0;
         goalStartPosition = goal.position;
         agent = GetComponent<NavMeshAgent>();
         inPursuit = false;
@@ -40,25 +36,23 @@ public class EnemyAIScript : MonoBehaviour
         investigating = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
 
-        if(timer >= 1.0f)
+        if (timer >= 1.0f)
         {
             idleCounter++;
-            chaseCounter++;
             timer = 0;
         }
 
-        if(idleCounter > teleportTimer && (!inPursuit || !retreating || !investigating))
+        if (idleCounter > teleportTimer && !inPursuit && !retreating && !investigating)
         {
             MoveToRandomPosition();
             idleCounter = 0;
         }
 
-        if(inPursuit)
+        if (inPursuit)
         {
             if (goal.position != goalStartPosition)
             {
@@ -67,30 +61,33 @@ public class EnemyAIScript : MonoBehaviour
             }
         }
 
-        if(lightScript.attacking)
+        if (lightScript.attacking)
         {
-            RetreatToPoint();
+            if (!retreating)
+            {
+                RetreatToPoint();
+            }
         }
 
-        if(retreating)
+        if (retreating)
         {
-            if(agent.remainingDistance <= 0)
+            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
                 retreating = false;
             }
         }
 
-        if (playerScript.stayedTooLong && (!inPursuit || !retreating || !investigating))
+        if (playerScript.stayedTooLong && !inPursuit && !retreating && !investigating)
         {
             agent.destination = playerScript.destination;
             investigating = true;
         }
 
-        if(investigating)
+        if (investigating)
         {
-            if(agent.remainingDistance <= 0)
+            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                investigating = false;
+                investigating = false; 
             }
         }
     }
@@ -99,7 +96,7 @@ public class EnemyAIScript : MonoBehaviour
     {
         agent.enabled = false;
         int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
-        while(lastSpawnPosition == spawnPoints[randomIndex].position)
+        while (lastSpawnPosition == spawnPoints[randomIndex].position)
         {
             randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
         }
@@ -111,22 +108,21 @@ public class EnemyAIScript : MonoBehaviour
     void RetreatToPoint()
     {
         int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
-        while(lastSpawnPosition == spawnPoints[randomIndex].position || retreatPosition == spawnPoints[randomIndex].position)
+        while (lastSpawnPosition == spawnPoints[randomIndex].position || retreatPosition == spawnPoints[randomIndex].position)
         {
             randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
         }
-        agent.destination = spawnPoints[randomIndex].position;
-        if(inPursuit)
-        {
-            inPursuit = false;
-        }
-        retreating = true;
+
         retreatPosition = spawnPoints[randomIndex].position;
+        agent.SetDestination(retreatPosition);
+
+        retreating = true;
+        inPursuit = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.transform == goal)
+        if (other.gameObject.transform.name == "PlayerController")
         {
             agent.destination = goal.position;
             inPursuit = true;
