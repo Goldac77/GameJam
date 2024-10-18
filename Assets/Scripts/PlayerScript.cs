@@ -11,6 +11,12 @@ public class PlayerScript : MonoBehaviour
 
     Vector3 lastPosition;
     [HideInInspector] public Vector3 destination;
+
+    [SerializeField] PlayerNear playerNear;
+    AudioSource audioSource;
+
+    [HideInInspector] public bool playerWon;
+    int aliveDuration;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,17 +24,25 @@ public class PlayerScript : MonoBehaviour
         idleTimer = 0;
         stayedTooLong = false;
         lastPosition = transform.position;
+        playerWon = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerNear.playerNear)
+        {
+            audioSource.Play();
+        }
+
         timer += Time.deltaTime;
         if(lastPosition == transform.position)
         {
             if (timer >= 1f)
             {
                 idleTimer++;
+                aliveDuration++;
                 timer = 0;
             }
         } else
@@ -45,6 +59,11 @@ public class PlayerScript : MonoBehaviour
         {
             stayedTooLong = true;
             destination = transform.position;
+        }
+
+        if(aliveDuration >= 300)
+        {
+            playerWon = true;
         }
     }
 }

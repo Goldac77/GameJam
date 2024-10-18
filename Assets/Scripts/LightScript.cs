@@ -11,7 +11,6 @@ public class LightScript : MonoBehaviour
 
     float timer;
     [SerializeField] int lightTimer;
-    [SerializeField] float offDuration;
     int counter;
     // Start is called before the first frame update
     void Start()
@@ -35,7 +34,6 @@ public class LightScript : MonoBehaviour
         {
             lightsource.enabled = false;
             counter = 0;
-            StartCoroutine(ToggleLight());
         }
 
         Ray ray = new Ray(transform.position, transform.forward);
@@ -53,15 +51,6 @@ public class LightScript : MonoBehaviour
         } else
         {
             attacking = false;
-        }
-    }
-
-    IEnumerator ToggleLight()
-    {
-        if (!lightsource.enabled)
-        {
-            lightsource.enabled = false;
-            yield return new WaitForSeconds(offDuration);
         }
     }
 }

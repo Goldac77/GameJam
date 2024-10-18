@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAIScript : MonoBehaviour
 {
@@ -17,12 +19,14 @@ public class EnemyAIScript : MonoBehaviour
 
     bool inPursuit;
     bool retreating;
-    bool investigating;
 
     [SerializeField] LightScript lightScript;
     [SerializeField] PlayerScript playerScript;
 
     [SerializeField] int teleportTimer;
+
+    [SerializeField] GameObject gameOverPanel;
+    [SerializeField] GameObject gameWonPanel;
 
     void Start()
     {
@@ -33,7 +37,8 @@ public class EnemyAIScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         inPursuit = false;
         retreating = false;
-        investigating = false;
+        gameOverPanel.SetActive(false);
+        gameWonPanel.SetActive(false);
     }
 
     void Update()
@@ -46,7 +51,7 @@ public class EnemyAIScript : MonoBehaviour
             timer = 0;
         }
 
-        if (idleCounter > teleportTimer && !inPursuit && !retreating && !investigating)
+        if (idleCounter > teleportTimer && !inPursuit && !retreating)
         {
             MoveToRandomPosition();
             idleCounter = 0;
@@ -77,18 +82,14 @@ public class EnemyAIScript : MonoBehaviour
             }
         }
 
-        if (playerScript.stayedTooLong && !inPursuit && !retreating && !investigating)
+        if (playerScript.stayedTooLong && !inPursuit && !retreating)
         {
             agent.destination = playerScript.destination;
-            investigating = true;
         }
 
-        if (investigating)
+        if (playerScript.playerWon)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
-            {
-                investigating = false; 
-            }
+            gameWonPanel.SetActive(true);
         }
     }
 
@@ -123,8 +124,14 @@ public class EnemyAIScript : MonoBehaviour
         if (other.gameObject.transform.name == "PlayerController")
         {
             Debug.Log("Player caught");
-            agent.destination = goal.position;
-            inPursuit = true;
+            gameOverPanel.SetActive(true);
+            Invoke("RestartGame", 5);
+            
         }
+    }
+
+    void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -5402,6 +5402,8 @@ GameObject:
   - component: {fileID: 7141255183814331364}
   - component: {fileID: 5279673804048522781}
   - component: {fileID: 2395419736405407463}
+  - component: {fileID: 2500533896675795632}
+  - component: {fileID: 3136093532187453733}
   m_Layer: 9
   m_Name: PlayerController
   m_TagString: Player
@@ -5825,6 +5827,118 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2500533896675795632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723600902547576915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ee5923e3b939d4aa1751249608ee4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stayedTooLong: 0
+  idleThreshold: 10
+  destination: {x: 0, y: 0, z: 0}
+  playerNear: {fileID: 0}
+--- !u!82 &3136093532187453733
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723600902547576915}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 057b4f0f6baa1ca4eb403181a87a5561, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &733368217655392349
 GameObject:
   m_ObjectHideFlags: 0
@@ -45596,7 +45710,6 @@ GameObject:
   - component: {fileID: 6416413902706413946}
   - component: {fileID: 8405450099196967040}
   - component: {fileID: 5698293439129982312}
-  - component: {fileID: 7811912044127417768}
   m_Layer: 0
   m_Name: XR Rig Advanced
   m_TagString: Untagged
@@ -45767,21 +45880,6 @@ MonoBehaviour:
   HMDIsActive: 0
   LeftControllerPosition: {x: -0.2, y: -0.2, z: 0.5}
   RightControllerPosition: {x: 0.2, y: -0.2, z: 0.5}
---- !u!114 &7811912044127417768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6061528315072974212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ee5923e3b939d4aa1751249608ee4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stayedTooLong: 0
-  idleThreshold: 30
-  destination: {x: 0, y: 0, z: 0}
 --- !u!1 &6077237565251119974
 GameObject:
   m_ObjectHideFlags: 0
@@ -66403,7 +66501,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1400
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2586105650385038400
 MonoBehaviour:
   m_ObjectHideFlags: 0
