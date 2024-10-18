@@ -94,14 +94,12 @@ public class EnemyAIScript : MonoBehaviour
 
     void MoveToRandomPosition()
     {
-        agent.enabled = false;
         int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
         while (lastSpawnPosition == spawnPoints[randomIndex].position)
         {
             randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
         }
-        transform.position = spawnPoints[randomIndex].position;
-        agent.enabled = true;
+        agent.destination = spawnPoints[randomIndex].position;
         lastSpawnPosition = spawnPoints[randomIndex].position;
     }
 
